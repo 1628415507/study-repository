@@ -1,0 +1,145 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <meta name="format-detection" content="telephone=no" />
+    <title>原生js移动端列表无缝间歇向上滚动</title>
+    <script>
+      //计算根节点HTML的字体大小
+      function resizeRoot(width) {
+        var deviceWidth = document.documentElement.clientWidth,
+          num = width,
+          num1 = num / 100
+        if (deviceWidth > num) {
+          deviceWidth = num
+        }
+        document.documentElement.style.fontSize = deviceWidth / num1 + "px"
+      }
+      //根节点HTML的字体大小初始化
+      resizeRoot(750)
+
+      window.onresize = function () {
+        resizeRoot(750)
+      }
+    </script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        outline: 0;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        -webkit-tap-highlight-color: transparent;
+      }
+      body {
+        font-family: "Helvetica";
+        color: #909090;
+        background: #f1f4f7;
+        font-size: 0.28rem;
+        max-width: 750px;
+        min-width: 300px;
+        margin: 0 auto;
+      }
+      li {
+        list-style-type: none;
+      }
+      .scroll_tit {
+        overflow: hidden;
+        background: #ff8644;
+        margin: 0.3rem 0.3rem 0;
+      }
+      .scroll_tit li {
+        float: left;
+        height: 0.72rem;
+        line-height: 0.72rem;
+        color: #fff;
+        width: 33.33%;
+      }
+      .scroll_tit li:nth-child(1),
+      .scroll_content li span:nth-child(1) {
+        padding-left: 0.3rem;
+      }
+      .scroll_tit li:nth-child(2),
+      .scroll_content li span:nth-child(2) {
+        text-align: center;
+      }
+      .scroll_tit li:nth-child(3),
+      .scroll_content li span:nth-child(3) {
+        text-align: right;
+        padding-right: 0.3rem;
+      }
+      .scroll_content {
+        background: #fff;
+        border: 1px solid #ff8644;
+        padding: 0.1rem 0;
+        margin: 0 0.3rem;
+        overflow: hidden;
+      }
+      .scroll_content li {
+        overflow: hidden;
+        height: 0.54rem;
+        line-height: 0.54rem;
+        font-size: 0.26rem;
+        color: #333;
+      }
+      .scroll_content li span {
+        float: left;
+        width: 33.33%;
+      }
+    </style>
+  </head>
+  <body>
+    <ul class="scroll_tit">
+      <li>用户名</li>
+      <li>购买金额</li>
+      <li>收益率</li>
+    </ul>
+    <div class="scroll_content" id="scroll_content">
+      <ul>
+        <li><span>152*****066</span><span>1000</span><span>30%</span></li>
+        <li><span>136*****121</span><span>1000</span><span>30%</span></li>
+        <li><span>158*****356</span><span>1000</span><span>30%</span></li>
+        <li><span>134*****258</span><span>1000</span><span>30%</span></li>
+        <li><span>137*****122</span><span>1000</span><span>30%</span></li>
+        <li><span>159*****523</span><span>1000</span><span>30%</span></li>
+        <li><span>151*****885</span><span>1000</span><span>30%</span></li>
+        <li><span>183*****461</span><span>1000</span><span>30%</span></li>
+        <li><span>185*****052</span><span>1000</span><span>30%</span></li>
+        <li><span>136*****551</span><span>1000</span><span>30%</span></li>
+        <li><span>136*****551</span><span>1000</span><span>30%</span></li>
+      </ul>
+    </div>
+    <script>
+      var scrollArea = document.getElementById("scroll_content")
+      var li = scrollArea.getElementsByTagName("li")
+      if (li.length < 10) {
+        scrollArea.style.height = li[0].offsetHeight * li.length + 10 + "px"
+      } else {
+        scrollArea.style.height = li[0].offsetHeight * 9 + 10 + "px"
+        //滚动
+        var liHeight = li[0].offsetHeight //单行滚动的高度
+        var speed = 20 //滚动的速度
+        var timer
+        var delay = 3000 //滚动的间隔
+        scrollArea.scrollTop = 0
+        scrollArea.innerHTML += scrollArea.innerHTML
+        function startScroll() {
+          timer = setInterval(scrollUp, speed)
+          scrollArea.scrollTop++
+        }
+        function scrollUp() {
+          if (scrollArea.scrollTop % liHeight == 0) {
+            clearInterval(timer)
+            setTimeout(startScroll, delay)
+          } else {
+            scrollArea.scrollTop++
+            if (scrollArea.scrollTop >= scrollArea.scrollHeight / 2) {
+              scrollArea.scrollTop = 0
+            }
+          }
+        }
+        setTimeout(startScroll, delay)
+      }
+    </script>
+  </body>
+</html>
