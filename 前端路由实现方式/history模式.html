@@ -2,7 +2,7 @@
  * @Author: Hongzf
  * @Date: 2022-09-22 14:09:46
  * @LastEditors: Hongzf
- * @LastEditTime: 2022-09-22 14:40:34
+ * @LastEditTime: 2022-09-28 11:41:51
  * @Description: 
 -->
 <!DOCTYPE html>
@@ -69,7 +69,7 @@
             // console.log('【 orig 】-69', orig)
             return function () {
                 let rv = orig.apply(this, arguments);
-                console.log('【 rv 】-73', rv);
+                // console.log('【 rv 】-73', rv);
                 let e = new Event(type); //创建函数
                 e.arguments = arguments;
                 // 调用 dispatchEvent() 是触发一个事件的最后一步。
@@ -80,7 +80,7 @@
         };
         // End 重写history.pushState和history.replaceState方法
         history.pushState = _wr('pushState');
-        console.log('【 history.pushState 】-83', history.pushState);
+        // console.log('【 history.pushState 】-83', history.pushState);
         history.replaceState = _wr('replaceState');
         // 获取当前路径对应的state值
         window.onpopstate = function (event) {
